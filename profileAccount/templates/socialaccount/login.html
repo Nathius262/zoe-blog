@@ -1,0 +1,43 @@
+{% extends "index.html" %}
+{% load i18n %}
+{% block content %}
+<style>
+  .myCustomFooter{
+     margin-top: 30%;
+  }
+  @media (max-width: 600px){
+    .myCustomFooter{
+      margin-top:100%;
+    }
+  }
+</style>
+{% include 'home/header_snippets.html' %}
+
+<section  style="margin-top: 100px;" class="container d-flex">
+
+  <div class="container justify-content-center align-items-center border bg-light shadow">
+    {% if process == "connect" %}
+    <div class="container m-5">
+      <h1>{% blocktrans with provider.name as provider %}Connect {{ provider }}{% endblocktrans %}</h1>
+      <p>{% blocktrans with provider.name as provider %}You are about to connect a new third party account from {{ provider }}.{% endblocktrans %}</p>
+    </div>
+    {% else %}
+    <div class="container m-5">
+      <h1 class="text-dark">{% blocktrans with provider.name as provider %}Sign In Via {{ provider }}{% endblocktrans %}</h1>
+
+      <p>{% blocktrans with provider.name as provider %}You are about to sign in using a third party account from {{ provider }}.{% endblocktrans %}</p>
+    </div>
+      {% endif %}
+    <div class="container col-4 m-5">
+      <form  method="post">
+        {% csrf_token %}
+        <button class="container form-control btn btn-primary" type="submit">{% trans "Continue" %}</button>
+      </form>
+    </div>
+  </div>
+</section>
+<!---footer---->
+<section class="myCustomFooter">
+	{% include 'home/footer_snippets.html' %}
+</section>
+{% endblock %}

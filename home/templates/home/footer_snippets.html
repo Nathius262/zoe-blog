@@ -1,0 +1,122 @@
+{% load static %}
+<style>
+    {% include 'home/snippets/personal.css' %}
+    margin-bottom:-2px;
+</style>
+
+<!-- Back to top button -->
+<button
+        type="button"
+        class="btn btn-info btn-floating btn-lg"
+        id="btn-back-to-top"
+        >
+  <i class="fas fa-arrow-up">To Top</i>
+</button>
+
+<script>
+  //Get the button
+  let mybutton = document.getElementById("btn-back-to-top");
+
+  // When the user scrolls down 20px from the top of the document, show the button
+  window.onscroll = function () {
+    scrollFunction();
+  };
+
+  function scrollFunction() {
+    if (
+      document.body.scrollTop > 20 ||
+      document.documentElement.scrollTop > 20
+    ) {
+      mybutton.style.display = "block";
+    } else {
+      mybutton.style.display = "none";
+    }
+  }
+  // When the user clicks on the button, scroll to the top of the document
+  mybutton.addEventListener("click", backToTop);
+
+  function backToTop() {
+    document.body.scrollTop = 0;
+    document.documentElement.scrollTop = 0;
+  }
+</script>
+
+<section class="bg-dark text-light shadow">
+  <div class="">
+    <footer class="footer py-5">
+      <div class="container d-lg-flex d-block justify-content-center">
+        <div class="col-lg">
+          <div class="container mb-5">
+            <div class="fw-bold fs-3">OUR SERVICE</div>
+            <div>
+              <ul class="mx-2">
+                <li>Graphics</li>
+                <li>Web Development</li>
+                <li>Web Design</li>
+                <li>Python Tutorial</li>
+                <li>Advertisement</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-lg text-center">
+          <div class="container mt-5">
+            <h3>ABOUT US</h3>
+            <p>It's high time we made some difference. BlogZoe is a place to understand the fullness of God's word to it's simplicity and much more,
+                we got everyone of you covered bringing to you latest info on sport, latest news, e.t.c.
+            </p>
+          </div>
+          <div class="d-flex justify-content-center text-light fs-4">CONTACT: <a href="mailto:blogzoe18@gmail.com" class="mx-1">egbodonathaniel@gmail.com</a></div>
+        </div>
+      </div>
+      <hr>
+      <div class="container d-lg-flex row-md justify-content-between align-items-center">
+
+          <div class="text-lg-start text-center m-sm-4 m-auto order-last">
+            <a href="{% static 'img/zoe-blog2b.png'%}" class="p-2 pb-3 mb-3 me-2 mb-md-0 text-muted bg-light text-decoration-none lh-1">
+              <img class="bi" width="100" src="{% static 'img/zoe-blog2b.png'%}">
+            </a>
+            <span style="font-size:18px;" class="mb-3 mb-md-0 text-light">&copy; 2022 ZOE BLOG</span>
+          </div>
+
+          <div class="d-flex justify-content-lg-start justify-content-center ">
+            <a href="https://web.facebook.com/blogzoe/" class="m-1 mx-4"><svg enable-background="new 0 0 1024 1023.998" id="Facebook_3_" version="1.1" viewBox="0 0 1024 1023.998" width="30px" xml:space="preserve" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><g id="Background"><linearGradient gradientTransform="matrix(0.9397 0.3421 -0.3421 0.9397 840.8065 -105.4355)" gradientUnits="userSpaceOnUse" id="bg_2_" x1="231.4619" x2="-426.9561" y1="1084.9287" y2="300.3513"><stop offset="0" style="stop-color:#000000"/><stop offset="0.1921" style="stop-color:#090909"/><stop offset="0.5054" style="stop-color:#212121"/><stop offset="0.8987" style="stop-color:#494948"/><stop offset="1" style="stop-color:#545453"/></linearGradient><circle cx="512.001" cy="511.999" fill="url(#bg_2_)" id="bg_1_" r="512"/></g><linearGradient gradientTransform="matrix(1 0 0 1 428.6797 183.0771)" gradientUnits="userSpaceOnUse" id="Shadow_1_" x1="-20.1997" x2="470.0476" y1="177.4419" y2="667.6893"><stop offset="0" style="stop-color:#000000"/><stop offset="0.4833" style="stop-color:#090909;stop-opacity:0.5167"/><stop offset="1" style="stop-color:#181818;stop-opacity:0"/></linearGradient><path d="M635.896,1008.824L447.25,820.18l0.688-2.069l-0.375-182.859l-96.313-96.07l0.396-1.848  L467,433.999l32-126l13-51l49-23l101.333-23.167l9.917-6.583l0.5-0.319l349.684,349.652  C1022.434,553.582,1008.795,906.649,635.896,1008.824z" fill="url(#Shadow_1_)" id="Shadow"/><path d="M672.75,305.64V203.89c-3.736,0-7.473-0.007-11.209,0.001  c-8.996,0.02-17.993-0.022-26.99,0.001c-10.972,0.028-21.941-0.046-32.915,0.001c-9.667,0.042-19.337-0.097-29.003,0.003  c-14.592,0.151-28.442,0.868-42.438,5.375c-13.493,4.346-26.158,11.955-36.948,21.081c-6.248,5.284-12.031,10.943-17.269,17.234  c-2.121,2.613-4.098,5.33-5.942,8.14c-5.538,8.431-9.913,17.704-13.567,27.535c-0.82,2.213-1.628,4.432-2.396,6.662  c-5.634,16.324-5.82,34.143-5.82,51.297c0,2.148,0,4.363,0,6.629c0,33.984,0,79.291,0,79.291h-97v112h93.5h2.5v281h111v-283.5  L659,537.999l13.583-110.125L558.75,427.64v-85c0,0-0.25-36.25,30.5-36.75L672.75,305.64z" fill="#FFFFFF" id="Facebook"/></svg></a>
+            <a href="https://wa.link/f2m8tp" class="m-1 mx-4"><svg enable-background="new 0 0 1024 1024" id="Whatsapp_1_" version="1.1" viewBox="0 0 1024 1024" width="30px" xml:space="preserve" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><g id="Background"><linearGradient gradientTransform="matrix(0.9397 0.3421 0.3421 -0.9397 275.9552 765.9202)" gradientUnits="userSpaceOnUse" id="bg_2_" x1="464.1455" x2="-194.2722" y1="-72.9502" y2="711.6269"><stop offset="0" style="stop-color:#000000"/><stop offset="0.1921" style="stop-color:#090909"/><stop offset="0.5054" style="stop-color:#212121"/><stop offset="0.8987" style="stop-color:#494948"/><stop offset="1" style="stop-color:#545453"/></linearGradient><circle cx="512.001" cy="512" fill="url(#bg_2_)" id="bg_1_" r="512"/></g><linearGradient gradientTransform="matrix(1 0 0 -1 214.3398 1116.0391)" gradientUnits="userSpaceOnUse" id="Shadow_1_" x1="56.9604" x2="615.9818" y1="757.2754" y2="198.254"><stop offset="0" style="stop-color:#000000"/><stop offset="0.4833" style="stop-color:#090909;stop-opacity:0.5167"/><stop offset="1" style="stop-color:#181818;stop-opacity:0"/></linearGradient><path d="M410.506,1013.774L211.499,814.767l54.599-158.82c0,0-83.997-148.493-9-257.987  c0,0,71.996-137.993,167.992-151.492c0,0,106.495-40.498,184.491,0c0,0,82.495,32.6,92.995,45.548h17.777l297.805,297.803  c0,0-9.482,52.423-18.571,78.321c0,0-5.899,18.681-11.88,33.056c0,0-9.576,22.998-14.271,32.517c0,0-10.466,20.821-14.302,27.587  c0,0-12.211,21.006-16.731,27.912c0,0-22.071,32.616-33.313,45.978c0,0-13.916,16.556-18.723,21.762  c0,0-13.118,13.922-15.997,16.786c0,0-15.556,15.357-24.936,23.378c0,0-24.059,20.531-38.021,30.23c0,0-41.999,29.188-68.959,41.771  c0,0-40.587,19.554-64.652,27.154c0,0-48.785,15.362-73.673,19.313c0,0-23.208,3.908-32.761,4.939c0,0-17.217,1.889-26.202,2.396  c0,0-28.666,0.959-34.771,0.957c0,0-18.743-0.158-26.764-0.67c0,0-27.199-2.128-35.116-3.188c0,0-10.427-1.41-12.397-1.713  c0,0-10.686-1.722-12.336-2.015C423.783,1016.291,410.902,1013.854,410.506,1013.774z" fill="url(#Shadow_1_)" id="Shadow"/><path d="M725.683,297.42C670.012,240.111,593.048,209,514.455,209  c-167.024,0-301.291,135.905-299.652,301.289c0,52.393,14.736,103.166,39.298,149.01l-42.575,155.56l158.836-40.938  c44.205,24.563,93.33,36.028,142.453,36.028c165.383,0,299.659-135.905,299.659-301.297  C812.475,428.417,781.356,353.093,725.683,297.42z M643.813,721.519c-37.66,24.563-83.514,37.659-129.357,37.659  c-44.214,0-88.423-11.45-126.089-34.381l-9.818-4.909l-94.976,24.563l24.561-93.337l-6.547-9.819  c-72.047-116.268-37.659-270.187,80.232-342.232c117.899-72.047,270.18-37.659,342.227,80.232  C796.099,497.195,761.711,649.482,643.813,721.519z" fill="#FFFFFF" id="Circle"/><path d="M640.54,569.24c0,0-26.199-11.467-42.576-19.655c-1.637,0-3.274-1.629-4.916-1.629  c-4.908,0-8.187,1.629-11.456,3.276c0,0-1.641,1.632-24.563,27.825c-1.64,3.277-4.918,4.925-8.188,4.925h-1.639  c-1.641,0-4.91-1.646-6.548-3.277l-8.188-3.279c-18.014-8.186-34.391-18.004-47.485-31.116c-3.276-3.264-8.188-6.543-11.466-9.818  c-11.466-11.465-22.924-24.563-31.109-39.296l-1.641-3.28c-1.638-1.639-1.638-3.271-3.276-6.548c0-3.278,0-6.548,1.64-8.188  c0,0,6.549-8.188,11.464-13.097c3.271-3.278,4.911-8.188,8.188-11.466c3.27-4.908,4.909-11.466,3.27-16.373  c-1.63-8.188-21.283-52.402-26.191-62.221c-3.278-4.917-6.559-6.557-11.465-8.188h-4.909c-3.278,0-8.188,0-13.104,0  c-3.271,0-6.549,1.631-9.826,1.631l-1.631,1.64c-3.277,1.639-6.558,4.917-9.827,6.547c-3.277,3.279-4.917,6.558-8.187,9.827  c-11.466,14.735-18.014,32.749-18.014,50.764c0,13.095,3.277,26.2,8.186,37.657l1.641,4.917  c14.735,31.109,34.388,58.947,60.579,83.51l6.559,6.542c4.907,4.924,9.818,8.188,13.097,13.112  c34.388,29.473,73.686,50.754,117.9,62.219c4.908,1.633,11.456,1.633,16.372,3.278c4.911,0,11.46,0,16.377,0  c8.188,0,18.005-3.278,24.561-6.555c4.908-3.28,8.189-3.28,11.458-6.559l3.279-3.262c3.268-3.277,6.548-4.926,9.825-8.188  c3.27-3.278,6.549-6.557,8.187-9.834c3.271-6.541,4.91-14.729,6.549-22.915c0-3.277,0-8.188,0-11.465  c-0.001,0.003-1.64-1.645-4.919-3.277L640.54,569.24z" fill="#FFFFFF" id="Phone"/></svg></a>
+            <a href="https://instagram.com/blogzoe18?igshid=YmMyMTA2M2Y=" class="m-1 mx-4"><svg enable-background="new 0 0 1024 1024" width="30px"id="Instagram" version="1.1" viewBox="0 0 1024 1024" xml:space="preserve" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><g id="Background"><linearGradient gradientTransform="matrix(0.9397 0.3421 -0.3421 0.9397 840.8064 -105.4335)" gradientUnits="userSpaceOnUse" id="bg_2_" x1="231.4614" x2="-426.9566" y1="1084.9277" y2="300.3503"><stop offset="0" style="stop-color:#000000"/><stop offset="0.1921" style="stop-color:#090909"/><stop offset="0.5054" style="stop-color:#212121"/><stop offset="0.8987" style="stop-color:#494948"/><stop offset="1" style="stop-color:#545453"/></linearGradient><circle cx="512.001" cy="512" fill="url(#bg_2_)" id="bg_1_" r="512"/></g><linearGradient gradientTransform="matrix(1 0 0 1 428.6797 183.0791)" gradientUnits="userSpaceOnUse" id="Shadow_1_" x1="-130.5234" x2="445.5524" y1="114.9102" y2="690.9861"><stop offset="0" style="stop-color:#000000"/><stop offset="0.4833" style="stop-color:#090909;stop-opacity:0.5167"/><stop offset="1" style="stop-color:#181818;stop-opacity:0"/></linearGradient><path d="M564.542,1021.417L280,736.875L278.875,735l-9.772-381.901  c0,0,29.998-106.604,139.493-106.604s250.169,0,250.169,0s48.315,10.945,57.315,28.776h16.398l288.968,288.966  c0,0-5.925,46.839-12.128,69.719c0,0-12.438,46.392-22.561,69.75c0,0-13.656,32.226-22.135,47.624c0,0-7.117,13.825-14.727,26.011  c0,0-12.305,19.639-17.562,27.067c0,0-12.303,17.122-16.608,22.576c0,0-10.664,13.646-18.386,22.283c0,0-11.057,12.514-17.765,19.31  c0,0-6.57,6.95-14.039,13.94c0,0-23.227,21.294-33.406,29.231c0,0-38.493,28.975-56.518,39.278c0,0-26.516,15.543-43.139,23.099  c0,0-33.203,14.739-45.363,18.994c0,0-12.729,4.689-23.186,7.827c0,0-16.249,4.968-25.785,7.307c0,0-10.217,2.662-19.06,4.483  c0,0-11.486,2.598-22.819,4.37c0,0-17.959,2.747-23.312,3.362L564.542,1021.417z" fill="url(#Shadow_1_)" id="Shadow"/><g id="Instagram_1_"><circle cx="658.765" cy="364.563" fill="#FFFFFF" r="33.136"/><circle cx="512.001" cy="512" fill="none" r="121.412" stroke="#FFFFFF" stroke-miterlimit="10" stroke-width="45"/><path d="M255.358,612.506c0,91.127,73.875,165,165,165   h183.282c91.127,0,165-73.873,165-165V411.495c0-91.127-73.873-165-165-165H420.358c-91.127,0-165,73.873-165,165V612.506z" fill="none" stroke="#FFFFFF" stroke-miterlimit="10" stroke-width="45"/></g></svg></a>
+            <a href="https://twitter.com/blogzoe18?s=08" class="m-1 mx-4"><svg enable-background="new 0 0 1024 1024" id="Twitter" version="1.1" viewBox="0 0 1024 1024" width="30px" xml:space="preserve" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><g id="Background"><linearGradient gradientTransform="matrix(0.9397 0.3421 0.3421 -0.9397 275.9552 765.9202)" gradientUnits="userSpaceOnUse" id="bg_2_" x1="464.1455" x2="-194.2722" y1="-72.9502" y2="711.6269"><stop offset="0" style="stop-color:#000000"/><stop offset="0.1921" style="stop-color:#090909"/><stop offset="0.5054" style="stop-color:#212121"/><stop offset="0.8987" style="stop-color:#494948"/><stop offset="1" style="stop-color:#545453"/></linearGradient><circle cx="512.001" cy="512" fill="url(#bg_2_)" id="bg_1_" r="512"/></g><linearGradient gradientTransform="matrix(1 0 0 -1 214.3398 1116.0391)" gradientUnits="userSpaceOnUse" id="Shadow_1_" x1="121.0908" x2="667.3148" y1="795.4238" y2="249.1999"><stop offset="0" style="stop-color:#000000"/><stop offset="0.4833" style="stop-color:#090909;stop-opacity:0.5167"/><stop offset="1" style="stop-color:#181818;stop-opacity:0"/></linearGradient><path d="M543.025,1023.193L216.889,697.258c0,0,177.111,43.742,198.611-53.758  c0,0-135.5-41.5-33-71.5c0,0-91.5-66.5-46-69c0,0-93.236-117.422-52.5-128c0,0,163.093,87.593,257.838,89.093  c0,0,1.75-148.493,63.247-154.493c0,0,80.996-3,95.995,16.5L785,291.5l9-7.11l230,229.611c0,0-0.209,37.308-3.847,61.519  c0,0-4.216,32.639-9.768,54.014c0,0-5.913,24.117-10.48,37.769c0,0-7.943,24.174-13.622,37.58c0,0-18.555,47.635-42.019,81.55  c0,0-31.317,51.702-67.666,85.188c0,0-48.878,47.305-81.832,67.348c0,0-95.768,69.422-245.768,84.229" fill="url(#Shadow_1_)" id="Shadow"/><path d="M742.988,348.513c0,0,52.681-44.338,51.012-64.124c0,0-60.785,26.698-74.135,27.89  c0,0-4.227-4.253-11.146-9.845c-2.307-1.864-4.912-3.877-7.762-5.93c-5.277-3.853-10.833-7.164-16.602-9.969  c-2.884-1.402-5.82-2.679-8.797-3.84c-19.379-8.492-40.61-10.572-61.45-8.292c-2.978,0.326-5.946,0.741-8.901,1.238  c-34.565,5.411-64.125,26.388-82.727,54.989c-1.67,2.609-3.218,5.287-4.629,8.033c-2.818,5.492-5.089,11.256-6.686,17.269  c-0.627,2.22-1.313,4.805-1.96,7.565c-0.648,2.76-1.259,5.695-1.736,8.615c-1.907,11.681,0,49.583,0,49.583  s-153.753,4.768-252.442-123.003c0,0-48.628,92.014,35.28,156.376c0,0-17.064,7.628-49.295-11.442c0,0-16.02,70.082,87.912,118.234  H278.39c0,0,17.64,77.711,111.562,84.862c0,0-44.338,59.594-173.063,50.535c0,0,116.14,80.755,265.766,43.276  c2.671-0.67,5.354-1.377,8.047-2.122c23.682-7.305,47.52-15.886,69.171-27.394c1.889-0.979,3.779-1.982,5.671-3.008  c5.677-3.072,11.377-6.343,17.099-9.816c0,0,157.32-85.241,170.191-305.489c0,0,33.063-19.401,54.277-56.587  C807.111,336.118,747.517,349.943,742.988,348.513z" fill="#FFFFFF" id="Twitter_1_"/></svg></a>
+            <a href="mailto:egbodonathaniel@gmail.com" class="m-1 mx-4"><svg xmlns="http://www.w3.org/2000/svg" style="color: white; background:black; border-radius:50%; padding:5px" width="30" height="30" fill="currentColor" class="bi bi-google" viewBox="0 0 16 16"><path d="M15.545 6.558a9.42 9.42 0 0 1 .139 1.626c0 2.434-.87 4.492-2.384 5.885h.002C11.978 15.292 10.158 16 8 16A8 8 0 1 1 8 0a7.689 7.689 0 0 1 5.352 2.082l-2.284 2.284A4.347 4.347 0 0 0 8 3.166c-2.087 0-3.86 1.408-4.492 3.304a4.792 4.792 0 0 0 0 3.063h.003c.635 1.893 2.405 3.301 4.492 3.301 1.078 0 2.004-.276 2.722-.764h-.003a3.702 3.702 0 0 0 1.599-2.431H8v-3.08h7.545z"/></svg></a>
+          </div>
+      </div>
+    </footer>
+
+    <div id="toTop" class="btn btn-info shadow " style="display: block; background: #6c757d; border-color: #343a40;" hidden>
+      <span class="fa fa-chevron-up text-light">scroll_Top</span>
+    </div>
+
+  </div>
+</section>
+
+<script type="text/javascript">
+  $(document).ready(function(){
+    $('body').append('<div id="toTop" class="btn btn-info shadow " style="display: block; background: #6c757d; border-color: #343a40;"><span class="fa fa-chevron-up text-light">scroll_Top</span></div>');
+      $(window).scroll(function () {
+          if ($(this).scrollTop() != 0) {
+              $('#toTop').fadeIn();
+          } else {
+              $('#toTop').fadeOut();
+          }
+      });
+    $('#toTop').click(function(){
+      $("html, body").animate({ scrollTop: 0 }, 600);
+      return false;
+    });
+  });
+
+</script>
+
+<script>
+  AOS.init({
+    duration: 1200,
+  })
+</script>

@@ -1,0 +1,69 @@
+.main_img{
+    position: relative;
+    cursor:pointer;
+}
+
+.account_img{
+    display: block;
+    background: grey;
+    background-image: url('{{request.user.image_profile.url}}');
+    background-size:cover;
+    top:0;
+    left 0;
+    width: 100px;
+    height: 100px;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+}
+
+.main_overlay{
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left:0;
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    background: rgba(0, 0, 0, 0.6);
+    color: white;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    transition: opacity 1s;
+}
+.main_overlay:hover{
+    opacity: 1;
+}
+
+ .main_overlay_blur {
+    backdrop-filter: blur(5px);
+}
+
+.main_overlay > * {
+    transform: translateY(20px);
+    transition: transform 1s;
+}
+.main_overlay:hover > * {
+    transform: translateY(0);
+}
+.title_img{
+    margin-left:25px;
+}
+
+@media (max-width: 600px) {
+    .modal-dialog{
+        left: 20%;
+        margin-top: 40px;
+        justify-items: center;
+    }
+    .modal-content {
+        max-width: 50%;
+    }
+    h2{
+        text-align: center;
+    }
+}

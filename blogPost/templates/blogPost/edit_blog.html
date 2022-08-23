@@ -1,0 +1,79 @@
+{% extends 'index.html'%}
+{% load static %}
+{% block content %}
+<style type="text/css">'
+	{% include 'blogPost/snippets/edit_blog.css' %}
+</style>
+{% include 'home/header_snippets.html' %}
+	<div class="container mt-5 h-100">
+		<div class="row">
+			<div class="col-lg-7 offset-lg-3 mb-5">
+				<h1 class="fw-bold m-4 text-center">Update Post</h1>
+				<hr class="">
+				<div class="col-lg-7 text">
+
+
+				</div>
+				<form class="create-form" method="post" enctype="multipart/form-data">{% csrf_token %}
+
+					<!-----title---->
+					<div class="form-group mb-3">
+						<label for="id_title"><h4>Title</h4></label>
+						<input name="title" class="form-control" type="text" id="id_title" placeholder="Title" value="{{form.initial.title}}" required autofocus>
+					</div>
+
+						<!-----category---->
+					<div class="form-group mb-3">
+						<div class="mb-3 border">
+							<label ><h4>Category</h4></label>
+
+							{% for cat in category_list %}
+							<div class="col border m-2">
+								<input name="obj" type="checkbox" class="form-check-input " value="{{cat}}" id="{{cat}}"{% if cat in form.initial.category %}checked{%endif%}>
+								<label class="form-check-label" for="{{cat}}">{{cat}}</label>
+							</div>
+							{%endfor%}
+						</div>
+					</div>
+
+						<!-----body---->
+					<div class="form-group mb-3">
+						<h4>Body</h4>
+						{{form.body}}
+					</div>
+
+					<!-----image---->
+					<div class="form-group image-group mb-3">
+						<div id="id_image_group" class="blog_main_img">
+							<img id="id_image_display" class="blog_img container " src="{{form.initial.image.url}}">
+							<div class="blog_overlay blog_overlay_blur"><div class="title_blog_img">Change Image</div></div>
+							<input name="image" type="file" id="id_image_file" accept="image/*" class="form-control" onchange="readURL(this)" hidden>
+						</div>
+					</div>
+
+					<button class="w-100 btn mb-2 btn-lg rounded-3 btn-primary mt-3" type="submit">Update</button>
+				</form>
+			</div>
+		</div>
+	</div>
+	{% if messages %}
+		{% include 'message.html' %}
+	{% endif %}
+	<script type="text/javascript">
+		document.getElementById('id_image_group').onclick = function(event){
+			document.getElementById('id_image_file').click();
+		};
+		function readURL(input){
+			var reader = new FileReader();
+			reader.onload = function(e) {
+				$('#id_image_display')
+					.attr('src', e.target.result)
+			};
+			reader.readAsDataURL(input.files[0]);
+		}
+	</script>
+
+<section style="margin-top: 20%">
+	{% include 'home/footer_snippets.html' %}
+</section>
+{% endblock content %}

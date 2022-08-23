@@ -1,0 +1,44 @@
+<style>
+    @media (max-width: 600px) {
+        .modal-dialog{
+            left: 20%;
+            margin-top: 40px;
+            justify-items: center;
+        }
+        .modal-content {
+            max-width: 50%;
+        }
+        h2{
+            text-align: center;
+        }
+    }
+</style>
+
+	<!---- create Category modal---->
+
+	<div class="modal modal-signin py-5 mt-5" tabindex="-2" role="dialog" id="createCat">
+	  <div class="modal-dialog" role="document">
+		<div class="modal-content rounded-4 shadow">
+		  <div class="modal-header p-5 pb-4 border-bottom-0">
+			<!-- <h5 class="modal-title">Modal title</h5> -->
+			<h2 class=" text-center fw-bold mb-0 ">Create Category</h2>
+			<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+		  </div>
+
+		  <div class="modal-body p-5 pt-0">
+			<form method="post" class="">{% csrf_token %}
+			  <div class="form-floating mb-3">
+				<input name="category_name" type="text" class="form-control rounded-3" id="floatingInput" placeholder="Category Name " required>
+				<label for="floatingInput">Category Name</label>
+			  </div>
+			  <button class="w-100 mb-2 btn btn-lg rounded-3 btn-primary" type="submit">Create</button>
+			</form>
+			  <small class="d-flex flex-column "><a class="m-auto" href="{% url 'blogPost:blog'%}">View Post</a></small>
+			  <hr class="my-4">
+		  </div>
+		</div>
+	  </div>
+	</div>
+    {% if messages %}
+		{% include 'message.html' %}
+	{% endif %}

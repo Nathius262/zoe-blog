@@ -1,0 +1,324 @@
+{% extends 'index.html'%}
+{% load static %}
+{% load hitcount_tags %}
+{% load social_share %}
+{% block content %}
+<!---header---->
+<style>
+    .p_social{
+        font-size: 25px;
+        font-weight: bold;
+    }
+    .btn1{
+        border:none;
+        transition: background 1s;
+    }
+    .btn1:hover{
+        background:grey;
+        backdrop-filter: blur(5px);
+    }
+
+    .pro_img{
+        position: relative;
+        cursor:pointer;
+        padding:10px;
+    }
+
+    .pro_img_img{
+        background: grey;
+        background-image: url('{{author_pix.url}}');
+        background-size:cover;
+        width: 100px;
+        height: 100px;
+        align-items: center;
+        justify-content: center;
+        border-radius: 50%;
+    }
+    #title_header{
+        border-bottom: 1px solid #c3c3c3;
+    }
+    @media (max-width: 769px){
+        #title_header{
+          border: 1px solid #c3c3c3;
+          text-align:center;
+        }
+
+    }
+</style>
+
+<!---header---->
+<section style="margin-bottom: 5%;">
+	{% include 'home/header_snippets.html' %}
+</section>
+<!---end header---->
+
+<!---main---->
+<section>
+    <div class="album py-5 bg-light">
+        <div class="container">
+            <div class="row">
+                <!---- post header---->
+                <div class="card-header" id="title_header">
+                <div  class="d-md-flex justify-content-between">
+                    <div class="d-md-flex pb-lg-5">
+                        <a href="{% url 'profile' post.author.username %}">
+                            <div class="pro_img" >
+                                <button style="border:none;" type="submit" class="pro_img_img container" ></button>
+                            </div>
+                        </a>
+                        <div class="mx-3">
+                            <h1 class="mt-2">{{post.title|upper}} -</h1>
+                            <h4 class="fs-bold mt-1 mx-2 text-secondary">Published on {{ post.date_published }} by {{ post.author| title }}</h4>
+                        </div>
+                    </div>
+
+                        {% if post.author == user %}
+                            <div class="pb-3 p-lg-5 p-sm-3">
+                                <a href="{% url 'blogPost:edit' post.slug %}" class="btn btn-secondary">Edit Post</a>
+                            </div>
+                        {% endif %}
+
+                </div>
+                </div>
+                <!----end post header---->
+                <hr>
+
+                <!----detailed post---->
+                <div class="col-md-12">
+                    <div class="card">
+                        <a href="{{post.image.url}}"><img alt="{{post.title}}" class="card-img-top" src="{{post.image.url}}" height="50%" width="100%"></a>
+                        <div class="card-body">
+                            <div class="container">
+                                <p style="font-size: 25px;"><span class="fw-bold">Category: </span>{%for obj in cat %}<a href="/blog/category/{{obj}}" class="link-primary rounded mx-1">{{obj}}</a>{%endfor%}</p>
+                            </div>
+                            <div class="container">
+                                <div class="card-text fs-4">{{post.body |safe}}</div>
+                            </div>
+
+                            <!----social activities---->
+                            <div class="container d-md-flex mt-4 mb-1 justify-content-between border">
+                                <!----views---->
+                                <div class="d-flex justify-content-between">
+                                <div class="m-3">
+                                    <svg class="" width="40px" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><path d="M.2 10a11 11 0 0 1 19.6 0A11 11 0 0 1 .2 10zm9.8 4a4 4 0 1 0 0-8 4 4 0 0 0 0 8zm0-2a2 2 0 1 1 0-4 2 2 0 0 1 0 4z"/></svg>
+                                    <span class="p_social mx-1 mt-md-4">{% get_hit_count for post %}</span>
+                                </div>
+                                </div>
+
+                                <!----reactions---->
+                                <div class="d-flex justify-content-between">
+                                    {%if request.user.is_authenticated %}
+                                        <form action="{% url 'blogPost:like' post.slug%}" method="POST" class="ui form">{% csrf_token %}
+                                            <input name="post_id" value="{{post.id}}" type="hidden">
+                                            <input name="post_value" value="Like" type="hidden">
+                                            <button class="btn btn1 rounded-5 m-2" type="submit">
+                                                <svg version="1.1" viewBox="0 0 519 519" width="50px" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><title/>
+                                                    <desc/>
+                                                    <defs>
+                                                    <radialGradient cx="50%" cy="15.4048688%" fx="50%" fy="15.4048688%" id="radialGradient-1" r="92.1961326%">
+                                                    <stop offset="0%" stop-color="#4EA3F8"/><stop offset="100%" stop-color="#0073E4"/>
+                                                    </radialGradient>
+                                                    </defs>
+                                                    <g fill="none" fill-rule="evenodd" id="Page-1" stroke="none" stroke-width="1"><g id="Artboard" transform="translate(-718.000000, -821.000000)"><g id="Group-8" transform="translate(718.000000, 821.000000)"><circle cx="259.5" cy="259.5" fill="url(#radialGradient-1)" id="Oval" r="259.5"/><path d="M253.086529,106.80608 C251.763557,107.440317 250.935533,108.79148 250.971012,110.258195 C251.485754,131.548955 251.743125,143.889925 251.743125,147.281104 L251.743125,156.873365 L250.138208,160.230657 C248.335702,164.000895 247.404908,165.564913 234.202837,187.013209 C229.03262,195.412672 222.19937,206.923385 219.017623,212.592891 C215.225611,219.3501 213.240732,226.971215 213.254816,234.719701 L213.44295,338.230328 C213.466007,350.916534 223.756684,361.188525 236.442912,361.188525 L349.642136,361.188525 L349.642136,361.188525 L353.768721,359.163598 C363.035014,354.615428 369.838723,344.033245 369.88812,334.090387 C369.907491,330.256361 369.784967,329.759481 367.839113,325.747998 C366.701046,323.40221 365.829334,321.447308 365.901977,321.404142 C365.974619,321.360977 368.110797,320.410864 370.64893,319.292886 C381.553072,314.488602 387.969837,306.853162 388.434266,298.129001 C388.679798,293.522797 387.601297,290.340085 383.958996,284.918539 C382.490646,282.732942 381.289137,280.816409 381.289137,280.659095 C381.289137,280.502262 381.644602,280.373726 382.079005,280.373726 C382.513892,280.373726 384.638446,279.457185 386.800775,278.336809 C396.678235,273.219817 402.333221,263.507174 400.73024,254.412271 C399.662394,248.35284 396.469993,243.535127 389.377651,237.278095 L387.054056,235.228229 L389.724399,232.371654 C393.168628,228.687266 395.258798,225.655152 396.631259,222.352057 C397.532996,220.180849 397.733974,218.790451 397.743176,214.647553 C397.761094,206.747847 395.934859,201.452919 391.612623,196.876931 C388.717572,193.811724 385.487881,191.817013 380.923018,190.274577 L377.172722,189.00744 C325.678142,188.722869 299.931336,188.517595 299.932305,188.391617 C299.934242,188.202649 300.368645,184.487087 300.897967,180.134598 C302.11013,170.168239 302.24234,151.978435 301.150279,145.362652 C298.040691,126.523931 288.02182,111.768156 274.839121,106.610877 C271.53824,105.319759 270.453444,105.138465 265.303082,105.020001 C262.106806,104.94614 258.539569,105.083309 257.376319,105.325034 C256.212584,105.56628 254.282227,106.232942 253.086529,106.80608 Z M146,218.377049 L189.858333,218.377049 C193.724327,218.377049 196.858333,221.511056 196.858333,225.377049 L196.858333,364 C196.858333,367.865993 193.724327,371 189.858333,371 L146,371 C142.134007,371 139,367.865993 139,364 L139,225.377049 C139,221.511056 142.134007,218.377049 146,218.377049 Z" fill="#FFFFFF" id="Shape"/></g></g></g>
+                                                </svg>
+                                                <span class="mx-1 mt-5 p_social">{{likes}}</span>
+                                            </button>
+                                        </form>
+                                        <form action="{% url 'blogPost:like' post.slug%}" method="POST" class="ui form">{% csrf_token %}
+                                            <input name="post_id" value="{{post.id}}" type="hidden">
+                                            <input name="post_value" value="Unlike" type="hidden">
+                                            <button class="btn btn1 rounded-5 m-2" type="submit">
+                                                <svg version="1.1" viewBox="0 0 519 519" width="50px" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><title/>
+                                                    <desc/>
+                                                    <defs>
+                                                    <radialGradient cx="50%" cy="21.9311119%" fx="50%" fy="21.9311119%" id="radialGradient-1" r="87.8884669%">
+                                                    <stop offset="0%" stop-color="#F25674"/>
+                                                    <stop offset="100%" stop-color="#D82D4E"/>
+                                                    </radialGradient>
+                                                    </defs>
+                                                    <g fill="#D82D4E"  id="Page-1" stroke="none" stroke-width="1">
+                                                        <g id="Artboard" transform="translate(-718.000000, -153.000000)">
+                                                            <g id="Group-8" transform="translate(718.000000, 153.000000)"><circle cx="259.5" cy="259.5" id="Oval" r="259.5"/>
+                                                                <path d="M237.086529,138.80608 C235.763557,139.440317 234.935533,140.79148 234.971012,142.258195 C235.485754,163.548955 235.743125,175.889925 235.743125,179.281104 L235.743125,188.873365 L234.138208,192.230657 C232.335702,196.000895 231.404908,197.564913 218.202837,219.013209 C213.03262,227.412672 206.19937,238.923385 203.017623,244.592891 C199.225611,251.3501 197.240732,258.971215 197.254816,266.719701 L197.44295,370.230328 C197.466007,382.916534 207.756684,393.188525 220.442912,393.188525 L333.642136,393.188525 L333.642136,393.188525 L337.768721,391.163598 C347.035014,386.615428 353.838723,376.033245 353.88812,366.090387 C353.907491,362.256361 353.784967,361.759481 351.839113,357.747998 C350.701046,355.40221 349.829334,353.447308 349.901977,353.404142 C349.974619,353.360977 352.110797,352.410864 354.64893,351.292886 C365.553072,346.488602 371.969837,338.853162 372.434266,330.129001 C372.679798,325.522797 371.601297,322.340085 367.958996,316.918539 C366.490646,314.732942 365.289137,312.816409 365.289137,312.659095 C365.289137,312.502262 365.644602,312.373726 366.079005,312.373726 C366.513892,312.373726 368.638446,311.457185 370.800775,310.336809 C380.678235,305.219817 386.333221,295.507174 384.73024,286.412271 C383.662394,280.35284 380.469993,275.535127 373.377651,269.278095 L371.054056,267.228229 L373.724399,264.371654 C377.168628,260.687266 379.258798,257.655152 380.631259,254.352057 C381.532996,252.180849 381.733974,250.790451 381.743176,246.647553 C381.761094,238.747847 379.934859,233.452919 375.612623,228.876931 C372.717572,225.811724 369.487881,223.817013 364.923018,222.274577 L361.172722,221.00744 C309.678142,220.722869 283.931336,220.517595 283.932305,220.391617 C283.934242,220.202649 284.368645,216.487087 284.897967,212.134598 C286.11013,202.168239 286.24234,183.978435 285.150279,177.362652 C282.040691,158.523931 272.02182,143.768156 258.839121,138.610877 C255.53824,137.319759 254.453444,137.138465 249.303082,137.020001 C246.106806,136.94614 242.539569,137.083309 241.376319,137.325034 C240.212584,137.56628 238.282227,138.232942 237.086529,138.80608 Z M130,250.377049 L173.858333,250.377049 C177.724327,250.377049 180.858333,253.511056 180.858333,257.377049 L180.858333,396 C180.858333,399.865993 177.724327,403 173.858333,403 L130,403 C126.134007,403 123,399.865993 123,396 L123,257.377049 C123,253.511056 126.134007,250.377049 130,250.377049 Z" fill="#FFFFFF" id="Shape" transform="translate(254.000000, 270.000000) rotate(-180.000000) translate(-254.000000, -270.000000) "/>
+                                                            </g>
+                                                        </g>
+                                                    </g>
+                                                </svg>
+                                                <span class="p_social mx-1 fs-bold mt-5">{{dislikes}}</span>
+                                            </button>
+                                        </form>
+
+                                    {% else %}
+                                    <button class="btn btn1 rounded-5 m-2" type="submit" onclick="like()">
+                                        <svg version="1.1" viewBox="0 0 519 519" width="50px" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><title/>
+                                            <desc/>
+                                            <defs>
+                                            <radialGradient cx="50%" cy="15.4048688%" fx="50%" fy="15.4048688%" id="radialGradient-1" r="92.1961326%">
+                                            <stop offset="0%" stop-color="#4EA3F8"/><stop offset="100%" stop-color="#0073E4"/>
+                                            </radialGradient>
+                                            </defs>
+                                            <g fill="none" fill-rule="evenodd" id="Page-1" stroke="none" stroke-width="1"><g id="Artboard" transform="translate(-718.000000, -821.000000)"><g id="Group-8" transform="translate(718.000000, 821.000000)"><circle cx="259.5" cy="259.5" fill="url(#radialGradient-1)" id="Oval" r="259.5"/><path d="M253.086529,106.80608 C251.763557,107.440317 250.935533,108.79148 250.971012,110.258195 C251.485754,131.548955 251.743125,143.889925 251.743125,147.281104 L251.743125,156.873365 L250.138208,160.230657 C248.335702,164.000895 247.404908,165.564913 234.202837,187.013209 C229.03262,195.412672 222.19937,206.923385 219.017623,212.592891 C215.225611,219.3501 213.240732,226.971215 213.254816,234.719701 L213.44295,338.230328 C213.466007,350.916534 223.756684,361.188525 236.442912,361.188525 L349.642136,361.188525 L349.642136,361.188525 L353.768721,359.163598 C363.035014,354.615428 369.838723,344.033245 369.88812,334.090387 C369.907491,330.256361 369.784967,329.759481 367.839113,325.747998 C366.701046,323.40221 365.829334,321.447308 365.901977,321.404142 C365.974619,321.360977 368.110797,320.410864 370.64893,319.292886 C381.553072,314.488602 387.969837,306.853162 388.434266,298.129001 C388.679798,293.522797 387.601297,290.340085 383.958996,284.918539 C382.490646,282.732942 381.289137,280.816409 381.289137,280.659095 C381.289137,280.502262 381.644602,280.373726 382.079005,280.373726 C382.513892,280.373726 384.638446,279.457185 386.800775,278.336809 C396.678235,273.219817 402.333221,263.507174 400.73024,254.412271 C399.662394,248.35284 396.469993,243.535127 389.377651,237.278095 L387.054056,235.228229 L389.724399,232.371654 C393.168628,228.687266 395.258798,225.655152 396.631259,222.352057 C397.532996,220.180849 397.733974,218.790451 397.743176,214.647553 C397.761094,206.747847 395.934859,201.452919 391.612623,196.876931 C388.717572,193.811724 385.487881,191.817013 380.923018,190.274577 L377.172722,189.00744 C325.678142,188.722869 299.931336,188.517595 299.932305,188.391617 C299.934242,188.202649 300.368645,184.487087 300.897967,180.134598 C302.11013,170.168239 302.24234,151.978435 301.150279,145.362652 C298.040691,126.523931 288.02182,111.768156 274.839121,106.610877 C271.53824,105.319759 270.453444,105.138465 265.303082,105.020001 C262.106806,104.94614 258.539569,105.083309 257.376319,105.325034 C256.212584,105.56628 254.282227,106.232942 253.086529,106.80608 Z M146,218.377049 L189.858333,218.377049 C193.724327,218.377049 196.858333,221.511056 196.858333,225.377049 L196.858333,364 C196.858333,367.865993 193.724327,371 189.858333,371 L146,371 C142.134007,371 139,367.865993 139,364 L139,225.377049 C139,221.511056 142.134007,218.377049 146,218.377049 Z" fill="#FFFFFF" id="Shape"/></g></g></g>
+                                        </svg>
+                                        <span class="mx-1 mt-5 p_social">{{likes}}</span>
+                                    </button>
+
+                                    <button class="btn btn1 rounded-5 m-2" type="submit"  onclick="like()">
+                                        <svg version="1.1" viewBox="0 0 519 519" width="50px" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><title/>
+                                            <desc/>
+                                            <defs>
+                                            <radialGradient cx="50%" cy="21.9311119%" fx="50%" fy="21.9311119%" id="radialGradient-1" r="87.8884669%">
+                                            <stop offset="0%" stop-color="#F25674"/>
+                                            <stop offset="100%" stop-color="#D82D4E"/>
+                                            </radialGradient>
+                                            </defs>
+                                            <g fill="#D82D4E"  id="Page-1" stroke="none" stroke-width="1">
+                                                <g id="Artboard" transform="translate(-718.000000, -153.000000)">
+                                                    <g id="Group-8" transform="translate(718.000000, 153.000000)"><circle cx="259.5" cy="259.5" id="Oval" r="259.5"/>
+                                                        <path d="M237.086529,138.80608 C235.763557,139.440317 234.935533,140.79148 234.971012,142.258195 C235.485754,163.548955 235.743125,175.889925 235.743125,179.281104 L235.743125,188.873365 L234.138208,192.230657 C232.335702,196.000895 231.404908,197.564913 218.202837,219.013209 C213.03262,227.412672 206.19937,238.923385 203.017623,244.592891 C199.225611,251.3501 197.240732,258.971215 197.254816,266.719701 L197.44295,370.230328 C197.466007,382.916534 207.756684,393.188525 220.442912,393.188525 L333.642136,393.188525 L333.642136,393.188525 L337.768721,391.163598 C347.035014,386.615428 353.838723,376.033245 353.88812,366.090387 C353.907491,362.256361 353.784967,361.759481 351.839113,357.747998 C350.701046,355.40221 349.829334,353.447308 349.901977,353.404142 C349.974619,353.360977 352.110797,352.410864 354.64893,351.292886 C365.553072,346.488602 371.969837,338.853162 372.434266,330.129001 C372.679798,325.522797 371.601297,322.340085 367.958996,316.918539 C366.490646,314.732942 365.289137,312.816409 365.289137,312.659095 C365.289137,312.502262 365.644602,312.373726 366.079005,312.373726 C366.513892,312.373726 368.638446,311.457185 370.800775,310.336809 C380.678235,305.219817 386.333221,295.507174 384.73024,286.412271 C383.662394,280.35284 380.469993,275.535127 373.377651,269.278095 L371.054056,267.228229 L373.724399,264.371654 C377.168628,260.687266 379.258798,257.655152 380.631259,254.352057 C381.532996,252.180849 381.733974,250.790451 381.743176,246.647553 C381.761094,238.747847 379.934859,233.452919 375.612623,228.876931 C372.717572,225.811724 369.487881,223.817013 364.923018,222.274577 L361.172722,221.00744 C309.678142,220.722869 283.931336,220.517595 283.932305,220.391617 C283.934242,220.202649 284.368645,216.487087 284.897967,212.134598 C286.11013,202.168239 286.24234,183.978435 285.150279,177.362652 C282.040691,158.523931 272.02182,143.768156 258.839121,138.610877 C255.53824,137.319759 254.453444,137.138465 249.303082,137.020001 C246.106806,136.94614 242.539569,137.083309 241.376319,137.325034 C240.212584,137.56628 238.282227,138.232942 237.086529,138.80608 Z M130,250.377049 L173.858333,250.377049 C177.724327,250.377049 180.858333,253.511056 180.858333,257.377049 L180.858333,396 C180.858333,399.865993 177.724327,403 173.858333,403 L130,403 C126.134007,403 123,399.865993 123,396 L123,257.377049 C123,253.511056 126.134007,250.377049 130,250.377049 Z" fill="#FFFFFF" id="Shape" transform="translate(254.000000, 270.000000) rotate(-180.000000) translate(-254.000000, -270.000000) "/>
+                                                    </g>
+                                                </g>
+                                            </g>
+                                        </svg>
+                                        <span class="p_social mx-1 fs-bold mt-5">{{dislikes}}</span>
+                                    </button>
+                                    <div id="like">
+                                        {% if messages %}
+                                            {% include 'message.html' %}
+                                        {% endif %}
+                                    </div>
+                                    <script>
+                                        var likes = document.getElementById("like");
+                                        likes.style.display = "none";
+                                        function like(){
+                                            likes.style.display = "block";
+                                        }
+                                    </script>
+                                    {% endif %}
+                                </div>
+
+                                <!----comments---->
+                               <div class="d-flex justify-content-between">
+                                   <div class="m-2">
+                                        <button type="button" class="btn btn1 rounded-5" onclick="comment()">
+                                            <svg class="btn_img" version="1.1" viewBox="0 0 519 519" width="50px" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><title/><desc/><defs><radialGradient cx="50%" cy="21.9311119%" fx="50%" fy="21.9311119%" id="radialGradient-1" r="87.8884669%"><stop offset="0%" stop-color="#5C79E5"/><stop offset="100%" stop-color="#3F59CD"/></radialGradient></defs><g fill="none" fill-rule="evenodd" id="Page-1" stroke="none" stroke-width="1"><g id="Artboard" transform="translate(-1563.000000, -153.000000)"><g fill="url(#radialGradient-1)" id="Group-8" transform="translate(718.000000, 153.000000)"><circle cx="1104.5" cy="259.5" id="Oval" r="259.5"/></g><path d="M1949,266 C1962.80712,266 1974,277.192881 1974,291 L1974,499.476352 C1974,513.283471 1962.80712,524.476352 1949,524.476352 L1835.456,524.476 L1753.37323,579.156663 C1751.07505,580.687611 1747.97092,580.065641 1746.43997,577.767454 C1745.89304,576.946425 1745.60121,575.98195 1745.60121,574.995429 L1745.601,524.476 L1699,524.476352 C1685.19288,524.476352 1674,513.283471 1674,499.476352 L1674,291 C1674,277.192881 1685.19288,266 1699,266 L1949,266 Z" fill="#FFFFFF" id="Rectangle-2"/></g></g></svg>
+                                        </button>
+
+                                       <span class="p_social mt-3 mx-lg-0 mx-md-4">
+                                       {% with comments.count as total_comments%}
+                                           {{total_comments}} comment{{total_comments | pluralize}}
+                                       {%endwith%}
+                                       </span>
+
+                                   </div>
+                                </div>
+
+                                <!----share---->
+                                <div class="d-flex ">
+                                   <div class="m-3">
+                                       <button type="button" class="btn btn1 rounded-5" onclick="share()">
+                                            <svg width="35px" version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+                                                 viewBox="0 0 525.152 525.152" style="enable-background:new 0 0 525.152 525.152;" xml:space="preserve">
+                                            <g>
+                                                <path d="M420.735,371.217c-20.021,0-37.942,7.855-51.596,20.24L181.112,282.094c1.357-6.061,2.407-12.166,2.407-18.468
+                                                    c0-6.302-1.072-12.385-2.407-18.468l185.904-108.335c14.179,13.129,32.931,21.334,53.719,21.334
+                                                    c43.828,0,79.145-35.251,79.145-79.079C499.88,35.338,464.541,0,420.735,0c-43.741,0-79.079,35.338-79.079,79.057
+                                                    c0,6.389,1.072,12.385,2.407,18.468L158.158,205.947c-14.201-13.194-32.931-21.378-53.741-21.378
+                                                    c-43.828,0-79.145,35.317-79.145,79.057s35.317,79.079,79.145,79.079c20.787,0,39.54-8.206,53.719-21.334l187.698,109.604
+                                                    c-1.291,5.58-2.101,11.4-2.101,17.199c0,42.45,34.594,76.979,76.979,76.979c42.428,0,77.044-34.507,77.044-76.979
+                                                    S463.163,371.217,420.735,371.217z"/>
+                                            </g>
+                                            </svg>
+                                       </button>
+                                   </div>
+                                    <div id="share_p">
+                                        <div class="m-1" id="share1">{% post_to_facebook object_or_url %}</div>
+                                        <div class="m-1" id="share2">{% post_to_whatsapp object_or_url %}</div>
+                                        <div class="m-1" id="share3">{% post_to_twitter object_or_url %}</div>
+                                        <div class="m-1" id="share4">{% post_to_gplus object_or_url %}</div>
+                                    </div>
+                                </div>
+                                <script>
+                                    var shr = document.getElementById("share_p");
+                                    shr.style.display = "none";
+                                    function share(){
+                                        if (shr.style.display == "none"){
+                                        $("#share_p").fadeIn(1000);
+                                        } else{
+                                          $("#share_p").fadeOut(1000);
+                                        }
+                                    }
+                                </script>
+                            </div>
+
+                            <!----New comment---->
+                            <div class="container" id="comment">{% include 'blogPost/snippets/comment.html' %}</div>
+                            <hr>
+                            <script>
+                                var comment_display = document.getElementById('comment');
+                                comment_display.style.display = "none";
+                                function comment() {
+                                    if (comment_display.style.display == "none"){
+                                        $("#comment").fadeIn();
+                                    } else{
+                                      $("#comment").fadeOut();
+                                    }
+
+                                }
+                            </script>
+
+                            <!---load comments----->
+                            {% load mptt_tags %}
+                                <div class="container mt-5 mb-5">
+                                    {% if comments %}
+                                        {% with comments.count as total_comments%}
+                                            <h3>Comment{{total_comments | pluralize}}</h3>
+                                        {%endwith%}
+                                        <div class="container bg-dark pt-2 pb-2 mb-5">
+                                    {% recursetree comments %}
+                                        <div style="border: 2px solid; border-color:white;" class="container text-light mb-3 mt-3">
+                                            <div class="d-flex justify-content-between mt-3">By {{node.name_comment}}<div>{{node.date_published}}</div></div>
+
+                                            <div style="font-size:25px; border: 0 solid;" id="{{node.id}}" class="container ">
+                                                {{ node.content}}
+                                            </div>
+
+                                            {% if node.level < 3 %}
+                                                <button class="button btn btn-info m-3" onclick="myFunction({{node.id}})">Reply</button>
+                                            {% endif %}
+
+                                            {% if not node.is_leaf_node %}
+                                                <div class=" px-4">
+                                                    {{children}}
+                                                </div>
+                                            {% endif %}
+                                        </div>
+                                    {% endrecursetree %}
+                                </div>
+                                    {% else %}
+                                        <p style="font-size: 20px;">There are no comments for this post.</p>
+                                    {% endif %}
+                                </div>
+                            <!----social activities end---->
+
+                            <div class="card-footer text-muted mt-3">
+                                <small class="fs-bold">Published on {{ post.date_published }} by {{ post.author }}</small>
+                                <div class="col-4">
+                                    {% if post.author == user %}
+                                        <a href="{% url 'blogPost:delete_post' post.slug %}" class="btn btn-danger">Delete Post</a>
+                                    {% endif %}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<!---end main---->
+
+<!---footer---->
+<section style="margin-top: 50%;">
+	{% include 'home/footer_snippets.html' %}
+</section>
+{% endblock content %}

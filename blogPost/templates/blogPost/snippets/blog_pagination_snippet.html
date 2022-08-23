@@ -1,0 +1,32 @@
+<div class="d-flex flex-column m-auto pagination mt-5">
+    <nav aria-label="Page navigation">
+        <ul class="pagination pg-grey justify-content-center">
+            {% if all_post.has_previous %}
+                <li class="page-item">
+                    <a class="page-link" href="?{% if query %}q={{query}}&{% endif %}page={{all_post.previous_page_number}}">&laquo; Previous</a>
+                </li>
+            {% endif %}
+
+            {% for i in all_post.paginator.page_range %}
+                {% if all_post.number == i %}
+                    <li class="page-item active">
+                        <a class="page-link" > {{i}}</a>
+                    </li>
+                {% else %}
+                    <li class="page-item">
+                        <a class="page-link" href="?{% if query %}q={{query}}&{% endif %}page={{ i }}"> {{i}}</a>
+                    </li>
+                {% endif %}
+            {% endfor %}
+
+            {% if all_post.has_next %}
+                <li class="page-item">
+                    <a class="page-link" href="?{% if query %}q={{query}}&{% endif %}page={{all_post.next_page_number}}">Next</a>
+                </li>
+            <li class="page-item">
+                    <a class="page-link" href="?{% if query %}q={{query}}&{% endif %}page={{all_post.paginator.num_pages}}">Last &raquo;</a>
+                </li>
+            {% endif %}
+        </ul>
+    </nav>
+</div>

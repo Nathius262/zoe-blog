@@ -1,0 +1,78 @@
+{% extends 'index.html'%}
+
+{% block content %}
+<style>
+    {% include 'account/snippets/account_style.css' %}
+</style>
+
+{% include 'home/header_snippets.html' %}
+<div class="modal modal-signin position-static d-block bg-default py-5" tabindex="-1" role="dialog" id="account">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content rounded-4 shadow">
+      <div class="modal-header p-5 pb-4 border-bottom-0">
+        <!-- <h5 class="modal-title">Modal title</h5> -->
+        <h2 class="fw-bold mb-0">Account</h2>
+      </div>
+
+      <div class="modal-body p-5 pt-0">
+        <form  method="post" enctype="multipart/form-data" class="">{% csrf_token %}
+           <div class="form-floating mb-3">
+            <input type="email" name="email" class="form-control rounded-3" id="floatingInput" placeholder="name@example.com" required autofocus value="{{account_form.initial.email}}">
+            <label for="floatingInput">Email address</label>
+          </div>
+          <div class="form-floating mb-3">
+            <input type="text" name="username" class="form-control rounded-3" id="floatingUsername" placeholder="Username" required value="{{account_form.initial.username}}">
+            <label for="floatingUsername">Username</label>
+          </div>
+          <div class="form-floating mb-3">
+            <input type="text" name="name" class="form-control rounded-3" id="floatingName" placeholder="Full Name" required value="{{account_form.initial.name}}">
+            <label for="floatingName">Full Name</label>
+          </div>
+
+                        <!-----image---->
+            <div class="container col-lg-4 form-group image-group mb-3">
+                <div id="id_image_group" class="main_img">
+                    <img id="id_image_display" class="account_img" >
+                    <div class="main_overlay main_overlay_blur"><div class="title_img">Change Image</div></div>
+                    <input name="image_profile" type="file" id="id_image_file" onchange="readURL(this)" accept="image/*" class="form-control" value="{{account_form.initial.image_profile.url}}" hidden>
+                </div>
+            </div>
+
+            {% for field in account_form %}
+                {% for error in field.errors %}
+                    <p style="color: red;">{{error}}</p>
+                {% endfor %}
+            {% endfor %}
+            {% if account_form.non_field_errors %}
+                <div style="color:red;">
+                    <p>{{account_form.non_field_errors}}</p>
+                </div>
+            {% endif %}
+            {% if messages %}
+                {% include 'message.html' %}
+            {% endif %}
+          <button class="w-100 mb-2 btn btn-lg rounded-3 btn-primary" type="submit">Save Changes</button>
+        </form>
+        <small class="d-flex flex-column "><a class="m-auto" href="{% url 'account_change_password'%}">Change password</a></small>
+          <hr class="my-4">
+      </div>
+    </div>
+  </div>
+</div>
+<script type="text/javascript">
+    document.getElementById('id_image_group').onclick = function(event){
+        document.getElementById('id_image_file').click();
+    };
+    function readURL(input){
+        var reader = new FileReader();
+        reader.onload = function(e) {
+            $('#id_image_display')
+                .attr('src', e.target.result)
+        };
+        reader.readAsDataURL(input.files[0]);
+    }
+</script>
+<section style="margin-top: 20%;">
+	{% include 'home/footer_snippets.html' %}
+</section>
+{% endblock content %}

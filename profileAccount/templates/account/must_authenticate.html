@@ -1,0 +1,21 @@
+{% extends 'index.html'%}
+{% load static %}
+
+{% block content %}
+{% include 'home/header_snippets.html' %}
+
+<section>
+	<div class="container">
+		<div class="d-flex flex-colomn mt-5">
+			<h4 class="m-auto">Must authenticate to view this page</h4>
+			<p class=" m-auto">
+				<a href="{% url 'register' %}" class="btn btn-outline-primary ">Register</a>
+				<a href="{% url 'login' %}" class="btn btn-outline-primary ">Login</a>
+			</p>
+		</div>
+	</div>
+</section>
+<section style="margin-top: 50%;">
+	{% include 'home/footer_snippets.html' %}
+</section>
+{% endblock content %}

@@ -1,0 +1,82 @@
+    <!---- navbar header---->
+    <style>
+        .header_img{
+            width: 30px;
+            height: 30px;
+            background: grey;
+            background-image: url('{{request.user.image_profile.url}}'); /**request.user.socialaccount_set.all.0.get_avatar_url***/
+            background-size:cover;
+            border-radius: 50%;
+            cursor:pointer;
+        }
+
+
+        @media (max-width: 985px){
+            .profileImage{
+                margin-left: 10px;
+            }
+        }
+        @media (max-width: 900px){
+            .reg {
+                width: 50%;
+            }
+        }
+    </style>
+    <section>
+        <nav class="fixed-top navbar navbar-expand-lg bg-dark navbar-dark shadow">
+            <div class="container">
+                    {% if request.user.is_authenticated %}
+                        <a class ="navbar-brand d-flex">
+                            <div class="container">
+                                Welcome back, {{request.user.username}}, <!---{{ request.user.socialaccount_set.all.0.extra_data.name }}--->
+                            </div>
+                            {% if request.user.image_profile %}
+                                <a href="{% url 'profile' request.user.username %}" style="border:none;" type="submit" class="container header_img" ></a>
+                            {% else %}
+
+                            {% endif %}
+                        </a>
+                    {% else %}
+                        <a class="navbar-brand">ZOE BLOG</a>
+                     {% endif %}
+
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navmenu">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+
+                <div class=" collapse navbar-collapse" id="navmenu">
+                    <ul class="navbar-nav ms-auto">
+                            {% if request.user.is_authenticated %}
+                                <li class="nav-item">
+                                    <a class="nav-link" href="{% url 'logout' %}">Logout</a>
+                                </li>
+                             {% else %}
+                                <li class="nav-item">
+                                    <a class="nav-link" href="{% url 'register' %}">Register</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" href="{% url 'login' %}"> Login</a>
+                                </li>
+                            {% endif %}
+                        <li class="nav-item">
+                            <a href="{% url 'home' %}" class="nav-link">Home</a>
+                        </li>
+                         <li class="nav-item">
+                            <a href="{% url 'settings' %}" class="nav-link">Account</a>
+                        </li>
+                         <li class="nav-item">
+                            <a href="{% url 'blogPost:blog' %}" class="nav-link">Blog</a>
+                        </li>
+                    </ul>
+                    <form method="get" class="d-flex ms-4" role="search">
+                      <input name="q" class="form-control me-2" id="1d_q" type="search" placeholder="Search" aria-label="Search">
+                      <button class="btn btn-outline-success" type="submit">Search</button>
+                    </form>
+                </div>
+            </div>
+        </nav>
+    </section>
+    <!---- end navbar header---->
+    <script>
+        document.getElementById("id_q").value = "{{query}}"
+    </script>

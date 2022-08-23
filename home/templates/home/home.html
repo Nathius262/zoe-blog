@@ -1,0 +1,241 @@
+{% extends 'index.html'%}
+{% load static %}
+{% load hitcount_tags %}
+{% load humanize %}
+{% block content %}
+<style>
+    {% include 'home/snippets/personal.css' %}
+</style>
+
+
+{% if posts%}
+  <section style="margin-bottom: 5%;">
+  	{% include 'home/header_snippets.html' %}
+  </section>
+
+
+  <section class="container">
+    {% if query %}
+      <div class="d-flex flex-colomn pb-5">
+          <h1 class="m-auto">Search result: {{query}}</h1>
+      </div>
+    {% else %}
+
+    <!---carousel-inner---->
+    <section class="m-2  d-md-block">
+      <div id="myCarousel" class="carousel slide" data-bs-ride="carousel">
+        <div class="carousel-indicators">
+          <button type="button" data-bs-target="#myCarousel" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
+            {% for p in popular_posts %}
+          <button type="button" data-bs-target="#myCarousel" data-bs-slide-to="{{forloop.counter}}" aria-label="Slide {{forloop.counter|add:1}}"></button>
+            {%endfor%}
+        </div>
+        <div class="carousel-inner">
+          <div class="carousel-item active">
+            <img class="bd-placeholder-img " width="100%"  src="{% static '/img/1.jpg' %}"  aria-hidden="true" >
+
+            <div class="container mb-4 d-sm-flex" >
+              <div class="carousel-caption text-start ">
+                <h1>Sign up today to enjoy more of our services!</h1>
+                <p>Explore our website with tremendous posts.</p>
+                <p><a class="btn btn-lg btn-primary" href="register">Sign up today</a></p>
+              </div>
+            </div>
+          </div>
+
+            {% for p in popular_posts %}
+          <div class="carousel-item">
+            <img class="bd-placeholder-img" width="100%" src="{{p.image.url}}" aria-hidden="true" >
+
+            <div class="container">
+              <div class="carousel-caption {%if forloop.counter <= 2%}text-start{%else%}text-end text-warning{%endif%}">
+                <h1>{{p.title |truncatechars:15}}</h1>
+                <p>{{p.body|truncatechars:100|safe}}</p>
+                <p><a class="btn btn-lg btn-primary" href="{{p.get_absolute_url}}">{%if forloop.counter <= 2%}learn more{%else%}View{%endif%}</a></p>
+              </div>
+            </div>
+          </div>
+            {%endfor%}
+
+        </div>
+        </div>
+
+        <button class="carousel-control-prev" type="button" data-bs-target="#myCarousel" data-bs-slide="prev">
+          <span class="carousel-control-prev-icon bg-primary" aria-hidden="true"></span>
+          <span class="visually-hidden ">Previous</span>
+        </button>
+        <button class="carousel-control-next btn-secondary" type="button" data-bs-target="#myCarousel" data-bs-slide="next">
+          <span class="carousel-control-next-icon bg-primary" aria-hidden="true"></span>
+          <span class="visually-hidden">Next</span>
+        </button>
+
+    </section>
+      <hr>
+    {%endif%}
+    {% if not query %}
+    <div class="container d-lg-flex d-md-inline">
+        <!---category---->
+        <section style="background: light-gray;" class="container">
+            <div class="container d-lg-inline d-md-block">
+                <!------Category------>
+                  <div class="container m-3 mt-2 mb-5">
+                    <div class="rounded-4 flex-shrink-0 p-3 bg-white " style="width: 250px;">
+
+                      <ul class="list-unstyled justify-content-center align-items-center ps-0">
+                        <li class="mb-1">
+                           <button class="btn btn-toggle fs-2 d-inline-flex align-items-center rounded border-0 collapsed" data-bs-toggle="collapse" data-bs-target="#home-collapse" aria-expanded="false">
+                           Categories
+                          </button>
+                          <hr>
+                          <div class="collapse" id="home-collapse">
+                            <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 ">
+                              <li>
+                                {% for category in category_list %}
+
+                                <a href="/blog/category/{{category.category_name}}" class="link-dark d-block text-decoration-none rounded">
+                                  <h3 class="container m-auto fw-normal">{{category.category_name|title}} </h3>
+                                </a><hr>
+                                {% endfor %}
+                              </li>
+                            </ul>
+                          </div>
+                        </li>
+                      </ul>
+                    </div>
+                  </div>
+                <div class="container d-lg-inline d-md-flex">
+                    <!------Trending Posts------>
+                    <div class="container">
+                        <h1 class="">Trending Posts</h1>
+                        <div class="card rounded-5 mb-4 box-shadow">
+                            {% for post in popular_posts %}
+                            {% if forloop.counter == 1 %}
+                            <div class="card-img-top container" style="border-top-left-radius: 7%; border-top-right-radius: 7%; background:black; background-image: url('{{post.image.url}}'); background-size: cover; height:300px; width: 100%;"></div>
+                            {%endif%}
+                            <div class="card-body">
+                                <div class="border-bottom pb-3 pt-3 px-3 latest_posts">
+                                    <a href="{{post.get_absolute_url}}" class="nav-link">
+                                        <h5 class="d-flex justify-content-center mx-1">
+                                            <div class="d-flex"><span>{% if forloop.counter == 1 %}{%else%}{{forloop.counter}}.{%endif%}</span>{{post.title }}</div>
+                                        </h5>
+                                    </a>
+                                </div>
+                            </div>
+                            {% endfor %}
+                        </div>
+                    </div>
+
+                     <!------Latest Posts------>
+                    <div class="container">
+                        <h1 class="">Latest Posts</h1>
+                        <div class="card rounded-5 mb-4 box-shadow">
+                            {% for post in latest_posts %}
+                            {% if forloop.counter == 1 %}
+                            <img style="border-top-left-radius: 7%; border-top-right-radius: 7%;" class="card-img-top mb-2" src="{{post.image.url}}" alt="">
+                            {%endif%}
+                            <div class="card-body">
+                                <div class="border-bottom pb-3 pt-3 px-3 latest_posts">
+                                    <a href="{{post.get_absolute_url}}" class="nav-link">
+                                        <h5 class="d-flex justify-content-center mx-1">
+                                            <span class="s">{% if forloop.counter == 1 %}{%else%}{{forloop.counter}}.{%endif%}</span><div class="d-flex ">{{post.title }}</div>
+                                        </h5>
+                                    </a>
+                                </div>
+                            </div>
+                            {% endfor %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    {% endif %}
+      <section class="{% if query %}{% else %}col-lg-9{% endif %}">
+        <div class="row">
+          <div class="row">
+          <div class="album py-5">
+              <div class="container">
+                  <div class="row">
+                      {% if not query %}
+                      <div class="d-flex justify-content-between align-content-center pb-5">
+                          <ul class="col container d-flex list-unstyled m-3 ">
+                              <li class="m-auto fs-3 bg-dark rounded-4 p-2 fw-normal text-light" >All Post</li>
+                          </ul>
+
+                          <!-------{%if request.user.is_authenticated%}<a href="{% url 'blogPost:create' %}" class="btn btn-primary fs-4">Create Post</a>{%endif%}-------->
+                      </div>
+                      {%  endif%}
+                      {% for post in posts %}
+                      {% if forloop.counter <= 6 %}
+                          <div class="col-lg-4 col-md-6 mb-5 ">
+                              <div style="min-width: 200; max-height:400px; min-height:400px;" class="card mb-4 box-shadow">
+                                  <div class="card-img-top container" style="background:black; background-image: url('{{post.image.url}}'); background-size: cover; height:200px; width: 100%;"></div>
+                                  <div class="card-body">
+                                      <h2>{{post.title |truncatechars:15}}</h2>
+                                      <div class="card-text">{{post.body |truncatechars:100 |safe}}</div>
+                                      <a href="{{post.get_absolute_url}}" class="stretched-link"></a>
+                                      <div class="position-static mb-0 d-flex justify-content-between align-items-center">
+                                  <!----views---->
+                                  <small class="d-flex justify-content-between">
+                                  <div class="m-3 mb-0">
+                                      <svg class="" width="18px" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><path d="M.2 10a11 11 0 0 1 19.6 0A11 11 0 0 1 .2 10zm9.8 4a4 4 0 1 0 0-8 4 4 0 0 0 0 8zm0-2a2 2 0 1 1 0-4 2 2 0 0 1 0 4z"/></svg>
+                                      <span class="p_social mx-1 mt-md-4">{% get_hit_count for post %}</span>
+                                  </div>
+                                  </small>
+                                  <small class="text-muted">{{ post.date_published|naturalday}}</small>
+                              </div>
+                                  </div>
+                              </div>
+                          </div>
+                      {% endif %}
+                      {% endfor %}
+                  </div>
+              </div>
+          </div>
+
+          </div>
+        </div>
+    </section>
+
+    {% if not query %}</div>{% endif %}
+      {% if not posts %}
+          <div style="height:800px;" class="container album py-5 bg-light">
+              <div class="container">
+                  <div class="row">
+                       <div class="col">
+                          <div class="card m-auto mb-4 shadow">
+                              <div class="card-body">
+                                  <h2 class="card-title">No results</h2>
+                                  <p>There's no results matching your search: "{{query}}"</p>
+                              </div>
+                          </div>
+                      </div>
+                  </div>
+              </div>
+          </div>
+      {% endif %}
+  </section>
+
+  <!---footer---->
+  <section style="margin-top: 10%;">
+  	{% include 'home/footer_snippets.html' %}
+  </section>
+
+
+{% else %}
+  <div class="d-flex justify-content-center m-5">
+    <div class="d-block text-center">
+      <h1 class="h1_class mt-5 mb-2 fw-light ">Welcome to Zoe Blog</h1>
+      <h1 class="h1_class fw-light">Create Your First Blog Post</h1>
+      <div class="d-flex {% if not request.user.is_authenticated %}justify-content-between{% else %}border container col-10{% endif %}">
+        {% if not request.user.is_authenticated %}      
+        <a href="{% url 'register' %}" class="btn btn-danger fs-2">sign up</a>
+        <a href="{% url 'login' %}" class="btn btn-info fs-2">sign in</a>
+        {% endif %}
+        <a href="{% url 'blogPost:create' %}" class="{% if not request.user.is_authenticated %}btn btn-primary fs-2 {% else %}btn btn-primary form-control fs-2 {% endif %}">create Blog</a>
+      </div>
+    </div>
+
+  </div>
+{% endif %}
+
+{% endblock content %}

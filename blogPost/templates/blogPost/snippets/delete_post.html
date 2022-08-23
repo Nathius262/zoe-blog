@@ -1,0 +1,24 @@
+{% include 'blogPost/detail_blog.html' %}
+<form method="POST" class="ui form">{% csrf_token %}
+    <div style="background: rgba(0, 0, 0, 0.6)" class="modal modal-alert py-5 mt-5" tabindex="-2" role="dialog" id="delete_post">
+          <div class="modal-dialog" role="document">
+            <div class="modal-content rounded-3 shadow">
+              <div class="modal-body p-4 text-center">
+                  <div class="alert alert-warning m-2" role="alert">
+                     <h4>Are you sure you want to permanently delete this post?</h4>
+                  </div>
+              </div>
+                <hr>
+              <div class="container d-flex mb-2 ">
+                  <input name="get_post" class="form-control btn btn-danger m-1 p-2" type="submit" value="ok">
+                  <input name="get_post" class="form-control btn btn-primary m-1 p-2" type="submit" value="cancel">
+              </div>
+            </div>
+          </div>
+        </div>
+</form>
+
+<script>
+    var modalDelete = document.getElementById("delete_post");
+    modalDelete.style.display = "block";
+</script>

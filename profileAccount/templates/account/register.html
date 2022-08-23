@@ -1,0 +1,108 @@
+{% extends 'index.html'%}
+
+{% load static %}
+{% block content %}
+
+<style>
+    @media (max-width: 600px) {
+        .modal-dialog{
+            left: 15%;
+            margin-top: 40px;
+            justify-items: center;
+        }
+        .modal-content {
+            max-width: 70%;
+        }
+        h2{
+            text-align: center;
+        }
+    }
+</style>
+
+{% include 'home/header_snippets.html' %}
+
+<div class="modal modal-signin position-static d-block bg-default py-5" tabindex="-1" role="dialog" id="register">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content rounded-4 shadow">
+       <div class="d-flex justify-content-center">
+        <img class="col-4" width="100" src="{% static 'img/zoe-blog2b.png' %}" alt="zoe-blog2b">
+      </div>
+      <div class="justify-content-center pb-4 ">
+        <!-- <h5 class="modal-title">Modal title</h5> -->
+        <h2 class="text-center fw-bold mb-0">Register Now</h2>
+      </div>
+
+      <div class="modal-body p-5 pt-0">
+        <form method="post" enctype="multipart/form-data" class="">{% csrf_token %}
+          <div class="form-floating mb-3">
+            <input type="email" name="email" class="form-control rounded-3" id="floatingInput" placeholder="name@example.com" required>
+            <label class="d-flex" for="floatingInput">Email<span class="d-none d-md-flex mx-1"> address</span></label>
+          </div>
+          <div class="form-floating mb-3">
+            <input type="text" name="username" class="form-control rounded-3" id="floatingUsername" placeholder="Username" required>
+            <label for="floatingUsername">Username</label>
+          </div>
+          <div class="form-floating mb-3">
+            <input type="text" name="name" class="form-control rounded-3" id="floatingName" placeholder="Full Name" required>
+            <label for="floatingName">Full Name</label>
+          </div>
+          <div class="form-floating mb-3">
+            <input type="password"  name="password1" class="form-control rounded-3" id="floatingPassword1" placeholder="Password" required>
+            <label for="floatingPassword1">Password</label>
+          </div>
+            <div class="form-floating mb-3">
+            <input type="password"  name="password2" class="form-control rounded-3" id="floatingPassword2" placeholder="Confirm password" required>
+            <label class="d-flex" for="floatingPassword2">Confirm <span class="d-sm-none mx-1">pass...</span><span class="d-none d-sm-flex mx-1"> Password</span></label>
+          </div>
+          {% for field in registration_form %}
+            {% for error in field.errors %}
+                <p style="color: red;">{{error}}</p>
+            {% endfor %}
+          {% endfor %}
+        {% if registration_form.non_field_errors %}
+            <div style="color:red;">
+                <p>{{registration_form.non_field_errors}}</p>
+            </div>
+          {% endif %}
+          <button class="w-100 mb-2 btn btn-lg rounded-3 btn-primary" type="submit">Sign up</button>
+          <small class="text-muted">By clicking Register, you agree to the terms of use.</small>
+          <hr class="my-4">
+          <h2 class="fs-5 fw-bold mb-3">Or use a third-party</h2>
+
+          {% load socialaccount  %}
+          {% providers_media_js  %}
+
+          <a class="w-100 py-2 mb-2 btn btn-danger rounded-3" href= "{% provider_login_url "google" method="js_sdk" process="connect" %}" >
+          <svg aria-hidden="true" class="native svg-icon iconGoogle bg-light mt-1 rounded-4 p-1 m-1" width="20" height="20" viewBox="0 0 18 18"><path d="M16.51 8H8.98v3h4.3c-.18 1-.74 1.48-1.6 2.04v2.01h2.6a7.8 7.8 0 0 0 2.38-5.88c0-.57-.05-.66-.15-1.18Z" fill="#4285F4"></path><path d="M8.98 17c2.16 0 3.97-.72 5.3-1.94l-2.6-2a4.8 4.8 0 0 1-7.18-2.54H1.83v2.07A8 8 0 0 0 8.98 17Z" fill="#34A853"></path><path d="M4.5 10.52a4.8 4.8 0 0 1 0-3.04V5.41H1.83a8 8 0 0 0 0 7.18l2.67-2.07Z" fill="#FBBC05"></path><path d="M8.98 4.18c1.17 0 2.23.4 3.06 1.2l2.3-2.3A8 8 0 0 0 1.83 5.4L4.5 7.49a4.77 4.77 0 0 1 4.48-3.3Z" fill="#EA4335"></path></svg>
+            Sign up with Google
+          </a>
+          <a class="w-100 py-2 mb-2 btn btn-primary rounded-3" href= "{% provider_login_url "facebook" method="oauth2" process="login" %}">
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-facebook m-1" viewBox="0 0 16 16">
+            <path d="M16 8.049c0-4.446-3.582-8.05-8-8.05C3.58 0-.002 3.603-.002 8.05c0 4.017 2.926 7.347 6.75 7.951v-5.625h-2.03V8.05H6.75V6.275c0-2.017 1.195-3.131 3.022-3.131.876 0 1.791.157 1.791.157v1.98h-1.009c-.993 0-1.303.621-1.303 1.258v1.51h2.218l-.354 2.326H9.25V16c3.824-.604 6.75-3.934 6.75-7.951z"/>
+          </svg>
+            Sign up with Facebook
+          </a>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script type="text/javascript">
+    document.getElementById('id_image_group').onclick = function(event){
+        document.getElementById('id_image_file').click();
+    };
+    function readURL(input){
+        var reader = new FileReader();
+        reader.onload = function(e) {
+            $('#id_image_display')
+                .attr('src', e.target.result)
+        };
+        reader.readAsDataURL(input.files[0]);
+    }
+</script>
+<!---footer---->
+<section style="margin-top: 20%;">
+	{% include 'home/footer_snippets.html' %}
+</section>
+{% endblock content %}

@@ -1,0 +1,83 @@
+{% extends 'index.html'%}
+{% load static %}
+{% load humanize %}
+{% load hitcount_tags %}
+{% block content %}
+<!---header---->
+<section style="margin-bottom: 5%;">
+	{% include 'home/header_snippets.html' %}
+</section>
+
+<!---main---->
+<section>
+    {% if all_post %}
+    <div class="album py-5 bg-light">
+        <div class="container">
+
+            <div class="row">
+                {% if query %}
+                <div class="d-flex flex-colomn pb-5">
+                    <h1 class="m-auto">Search result: {{query}}</h1>
+                </div>
+                {% else %}
+                <div class="d-flex flex-colomn pb-5">
+                    <h1 class="m-auto">List of posts</h1>
+                    <p class="m-auto">
+                        <a href="{% url 'blogPost:create' %}" class="btn btn-outline-primary">Create Post</a>
+                    </p>
+                </div>
+                {% endif %}
+
+                {% for post in all_post %}
+
+                    <div class="col-lg-4 col-md-6 mb-5">
+                        <div style="min-width: 200; max-height:400px; min-height:400px;" class="card mb-4 box-shadow">
+                            <div class="card-img-top container" style="background:black; background-image: url('{{post.image.url}}'); background-size: cover; height:200px; width: 100%;"></div>
+                            <div class="card-body">
+                                <h2>{{post.title |truncatechars:15}}</h2>
+                                <div class="card-text">{{post.body |safe |truncatechars:100}}</div>
+                                <a href="{{post.get_absolute_url}}" class="stretched-link"></a>
+                                <div class="mb-0 d-flex justify-content-between align-items-center">
+                                    <!----views---->
+                                    <small class="d-flex justify-content-between">
+                                    <div class="m-3 mb-0">
+                                        <svg class="" width="18px" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><path d="M.2 10a11 11 0 0 1 19.6 0A11 11 0 0 1 .2 10zm9.8 4a4 4 0 1 0 0-8 4 4 0 0 0 0 8zm0-2a2 2 0 1 1 0-4 2 2 0 0 1 0 4z"/></svg>
+                                        <span class="p_social mx-1 mt-md-4">{% get_hit_count for post %}</span>
+                                    </div>
+                                    </small>
+                                    <small class="text-muted">{{ post.date_published|naturalday}}</small>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                {% endfor %}
+                {% include 'blogPost/snippets/blog_pagination_snippet.html' %}
+            </div>
+        </div>
+    </div>
+
+    {% else %}
+    <div class="album py-5 bg-light">
+        <div class="container">
+            <div class="row">
+                 <div class="col-md-4">
+                    <div class="card m-auto mb-4 shadow">
+                        <div class="card-body">
+                            <h2 class="card-title">No results</h2>
+                            <p>There's no results matching your search: "{{query}}"</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% endif %}
+
+</section>
+
+<!---footer---->
+<section style="margin-top: 5%;">
+	{% include 'home/footer_snippets.html' %}
+</section>
+{% endblock content %}

@@ -1,0 +1,22 @@
+.image{
+ 	opacity: 1;
+ 	transition: .5s ease;
+ 	backface-visibility: hidden;
+ }
+ .image-group{
+ 	position:relative;
+ 	text-align:center;
+ 	cursor:pointer;
+ }
+ .image-group:hover .image {
+ 	opacity: o.3;
+ }
+ .image-group:hover .middle{
+ 	opacity:1;
+ }
+ .text{
+ 	margin: auto;
+ 	background-color: orange;
+ 	color: white;
+ 	padding: 15px;
+ }

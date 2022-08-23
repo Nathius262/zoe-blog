@@ -1,0 +1,72 @@
+{% extends 'index.html'%}
+{% load static %}
+{% block content %}
+<!--header--->
+<section style="margin-bottom: 5%;">
+	{% include 'home/header_snippets.html' %}
+</section>
+
+<!--main--->
+<section>
+    {% if catlist.posts %}
+    <div class="album py-5 bg-light">
+        <div class="container">
+            <div class="row">
+                {% if catlist.query %}
+                <div class="d-flex flex-colomn pb-5">
+                    <h1 class="m-auto">Search result: {{catlist.query}}</h1>
+                </div>
+                {% else %}
+                <div class="col-12 pb-5">
+                    <h1>List of {{catlist.cat}} posts</h1>
+                </div>
+                {% endif %}
+                {% for post in catlist.posts %}
+                    <div class="col-lg-4 col-md-6 mb-5">
+                        <div style="min-width: 200; max-height:400px; min-height:400px;" class="card mb-4 box-shadow">
+                            <div class="card-img-top container" style="background:black; background-image: url('{{post.image.url}}'); background-size: cover; height:200px; width: 100%;"></div>
+                            <div class="card-body">
+                                <h2>{{post.title |truncatechars:15}}</h2>
+                                <p class="card-text">{{post.body |safe |truncatechars:100}}</p>
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <div class="btn-group">
+                                      <a href="{{post.get_absolute_url}}" type="button" class="btn btn-sm btn-outline-secondary">View</a>
+                                        {% if post.author == request.user %}
+                                            <a href="{% url 'blogPost:edit' post.slug %}" type="button" class="btn btn-sm btn-outline-secondary">Edit</a>
+                                        {% endif %}
+                                    </div>
+                                    <small class="text-muted">{{ post.date_published }}</small>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                {% endfor %}
+                {% include 'blogPost/snippets/blog_pagination_snippet.html' %}
+            </div>
+        </div>
+    </div>
+
+    {% else %}
+    <div class="album py-5 bg-light">
+        <div class="container">
+            <div class="row">
+                 <div class="col-md-4">
+                    <div class="card m-auto mb-4 shadow">
+                        <div class="card-body">
+                            <h2 class="card-title">No results</h2>
+                            <p>There's no results matching your search: "{{catlist.query}}"</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% endif %}
+</section>
+
+<!---footer---->
+<section style="margin-top: 50%;">
+	{% include 'home/footer_snippets.html' %}
+</section>
+{% endblock content %}
+

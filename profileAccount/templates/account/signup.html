@@ -1,0 +1,21 @@
+{% extends "index.html" %}
+
+{% load i18n %}
+{% load static %}
+
+{% block head_title %}{% trans "Signup" %}{% endblock %}
+
+{% block content %}
+
+<div class="container justify-content-center text-center">
+  <div class=" justify-content-center mt-5">
+    <img width="300" src="{% static 'img/zoe-blog2b.png' %}" alt="zoe-blog2b">
+    <h1>{% trans "Sign Up" %}</h1>
+
+    <p class="fs-3">Already have an account? Then please <a href="{% url 'login' %}">sign in</a>.</p>
+  </div>
+  <div class="d-flex justify-content-center">
+    <a href="{% url 'register' %}" class="fs-1">click to continue</a>
+  </div>
+</div>
+{% endblock %}
